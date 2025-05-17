@@ -60,7 +60,7 @@ class FFMPEGOverlay:
             "-y",
             self.options.general,
             "-f", "rawvideo",
-            "-framerate", "10.0",
+            "-framerate", "1",
             "-s", f"{self.overlay_size.x}x{self.overlay_size.y}",
             "-pix_fmt", "rgba",
             "-i", "-",

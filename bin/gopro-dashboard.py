@@ -338,7 +338,7 @@ if __name__ == "__main__":
                 # Draw an overlay frame every 0.1 seconds of video
                 timelapse_correction = frame_meta.duration() / video_duration
                 log(f"Timelapse Factor = {timelapse_correction:.3f}")
-                stepper = frame_meta.stepper(timeunits(seconds=0.1 * timelapse_correction))
+                stepper = frame_meta.stepper(timeunits(seconds=1 * timelapse_correction))
                 progress = ProgressBarProgress("Render")
 
                 unit_converters = Converters(
