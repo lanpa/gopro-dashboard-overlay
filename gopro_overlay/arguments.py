@@ -188,7 +188,4 @@ def gopro_dashboard_arguments(args=None):
     if args.use_gpx_only and not args.input and not args.overlay_size:
         quit("--overlay-size is required with --use-gpx-only (when no input video is given)")
 
-    if args.use_gpx_only and args.generate != "default":
-        quit("--generate cannot be combined with --use-gpx-only")
-
     return args

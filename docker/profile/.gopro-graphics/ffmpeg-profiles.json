@@ -1,0 +1,6 @@
+{
+    "quicktime": {
+      "input": ["-hwaccel", "auto"],
+      "output": ["-r", "1", "-vcodec", "qtrle", "-pix_fmt", "argb"]
+    }
+}
