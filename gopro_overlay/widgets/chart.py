@@ -16,6 +16,8 @@ class SimpleChart(Widget):
             fill=(91, 113, 146),
             line=(255, 255, 255),
             text=(255, 255, 255),
+            min_val=None,
+            max_val=None,
     ):
         self.value = value
         self.filled = filled
@@ -26,6 +28,10 @@ class SimpleChart(Widget):
         self.bg = bg
         self.line = line
         self.text = text
+        
+        # Min and max values from XML config
+        self.min_val = min_val
+        self.max_val = max_val
 
         self.view = None
         self.image = None
@@ -43,8 +49,8 @@ class SimpleChart(Widget):
             draw = ImageDraw.Draw(self.image)
 
             values = [i for i in data if i is not None]
-            max_val = max(values, default=0)
-            min_val = min(values, default=0)
+            max_val = self.max_val if self.max_val is not None else max(values, default=0)
+            min_val = self.min_val if self.min_val is not None else min(values, default=0)
 
             range_val = max_val - min_val
 

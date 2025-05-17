@@ -531,7 +531,7 @@ class Widgets:
 
     @allow_attributes({"x", "y", "metric", "units", "seconds",
                        "samples", "values", "textsize", "filled",
-                       "height", "bg", "fill", "line", "text"})
+                       "height", "bg", "fill", "line", "text", "min", "max"})
     def create_chart(self, element: ET.Element, entry, **kwargs) -> Widget:
         accessor = metric_accessor_from(attrib(element, "metric", d="alt"))
         converter = self.converters.converter(attrib(element, "units", d="metres"))
@@ -566,6 +566,8 @@ class Widgets:
                 fill=rgbattr(element, "fill", d=(91, 113, 146, 170)),
                 line=rgbattr(element, "line", d=(255, 255, 255, 170)),
                 text=rgbattr(element, "text", d=(255, 255, 255, 170)),
+                min_val=fattrib(element, "min", d=None),
+                max_val=fattrib(element, "max", d=None),
             )
         )
 
