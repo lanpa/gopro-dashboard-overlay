@@ -1,0 +1,53 @@
+<layout>
+    <composite x="100" y="20" name="date_and_time">
+        <component type="datetime" x="0" y="0" format="%Y/%m/%d" size="12" align="right"/>
+        <component type="datetime" x="0" y="16" format="%H:%M:%S" size="24" align="right"/>
+    </composite>
+
+    <composite x="1100" y="0" name="gps_info">
+        <frame name="gps-lock" x="150" y="16" width="24" height="24" bg="0,0,0,128" cr="3" opacity="0.4">
+            <component type="gps-lock-icon" size="24"/>
+        </frame>
+
+        <composite y="24">
+            <component type="text" x="0" y="0" size="12" align="left">GPS INFO</component>
+            <component type="text" x="0" y="16" size="12" align="left">Lat: </component>
+            <component type="text" x="85" y="16" size="12" align="left">Lon: </component>
+            <component type="metric" x="79" y="16" metric="lat" dp="6" size="12" align="right" cache="False"/>
+            <component type="metric" x="170" y="16" metric="lon" dp="6" size="12" align="right" cache="False"/>
+        </composite>
+    </composite>
+
+    <composite x="10" y="500" name="big_mph">
+        <component type="metric_unit" metric="speed" units="kph" size="12">{:~c}</component>
+        <component type="metric" x="0" y="0" metric="speed" units="kph" dp="0" size="106" />
+    </composite>
+
+    <component type="chart" name="gradient_chart" x="267" y="650"/>
+
+    <composite x="147" y="650" name="gradient">
+        <component type="text" x="47" y="0" size="12">SLOPE(%)</component>
+        <component type="icon" x="0" y="0" file="slope-triangle.png" size="42"/>
+        <component type="metric" x="47" y="12" metric="gradient" dp="0" size="24" />
+    </composite>
+
+    <composite x="10" y="650" name="altitude">
+        <component type="metric_unit" x="47" y="0" metric="alt" units="alt" size="12">ALT({:~C})</component>
+        <component type="icon" x="0" y="0" file="mountain.png" size="42"/>
+        <component type="metric" x="47" y="12" metric="alt" units="alt" dp="0" size="24" />
+    </composite>
+
+    <composite x="1200" y="550" name="cadence">
+        <component type="text" x="-47" y="0" size="12" align="right">RPM</component>
+        <component type="icon" x="-42" y="0" file="gauge.png" size="42"/>
+        <component type="metric" x="-47" y="12" metric="cadence" dp="0" size="24" align="right"/>
+    </composite>
+
+    <composite x="1200" y="650" name="heartbeat">
+        <component type="text" x="-47" y="0" size="12" align="right">BPM</component>
+        <component type="icon" x="-42" y="0" file="heartbeat.png" size="42"/>
+        <component type="metric" x="-47" y="12" metric="hr" dp="0" size="24" align="right"/>
+    </composite>
+
+    <component type="journey_map" name="journey_map" x="970" y="67" size="300" corner_radius="23"/>
+</layout>
