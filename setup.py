@@ -67,6 +67,9 @@ setup(
     ],
     python_requires=">=3.10",
     include_package_data=True,
+    package_data={
+        "gopro_overlay.icons": ["*.png", "*.svg", "*.jpg", "*/*.png", "*/*.svg", "*/*.jpg"],
+    },
     entry_points={
         "console_scripts": []
     },

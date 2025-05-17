@@ -2,7 +2,7 @@ venv/
 venv-pypy/
 build/
 .idea/
-
+.DS_Store
 render/*
 dist/
 *.egg-info/
