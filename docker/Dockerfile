@@ -1,28 +1,40 @@
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
-MAINTAINER gopro-overlay@time4tea.net
+MAINTAINER huang.dexter@gmail.com
 ENV PATH=$PATH:/usr/bin
 
-
-RUN apt update && apt install -y curl gnupg unzip fonts-noto fonts-roboto python3.11 ffmpeg sudo libcairo-dev
-
 WORKDIR /
-RUN apt install -y python3.11-venv
-RUN python3.11 -mvenv venv
-RUN /venv/bin/python3.11 -m pip install --upgrade pip
 
-RUN apt install -y gcc
-RUN apt install -y python3.11-dev libcairo2-dev pkg-config
-RUN /venv/bin/pip install pycairo==1.23.0
+# Install all dependencies in a single layer to reduce image size
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        gnupg \
+        unzip \
+        fonts-noto \
+        fonts-roboto \
+        python3.12 \
+        python3.12-venv && \
+    python3.12 -mvenv venv && \
+    /venv/bin/python3.12 -m pip install --upgrade pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt install -y libnvidia-decode-535-server libnvidia-encode-535-server
-ARG GOPRO_OVERLAY_VERSION
-RUN /venv/bin/pip install gopro-overlay==${GOPRO_OVERLAY_VERSION}
-
+# Install application
+COPY bin /work/bin
+COPY gopro_overlay /work/gopro_overlay
+COPY setup.py README-PYPI.md requirements.txt /work
+COPY docker/profile /profile
+COPY docker/ffmpeg docker/ffprobe /bin
+COPY docker/entrypoint.sh /
+# Set up volume and working directory
 VOLUME /work
 WORKDIR /work
 
-COPY entrypoint.sh /
+RUN /venv/bin/pip install setuptools
+RUN /venv/bin/pip install -r requirements.txt
+RUN /venv/bin/python3 setup.py install
+
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
