@@ -1,3 +1,58 @@
+# My Custom Build for Cycling Videos (Running on Mac mini M4)
+
+Example video:
+ (click to watch)
+
+[![Example Video](https://img.youtube.com/vi/h0ubSpsOUEA/0.jpg)](https://www.youtube.com/watch?v=h0ubSpsOUEA)
+
+## Optimization Experiments
+
+I experimented with different combinations to optimize processing time:
+- With/without Docker
+- With/without GPU (h264_videotoolbox)
+- Architecture (Rosetta 2 or native)
+- Ease of packaging
+
+My optimal workflow is:
+
+1. Use CPU inside Docker to generate an ARGB overlay video, which includes:
+   - Extracting GoPro GPS metadata
+   - Extracting Strava GPX data
+   - Rendering
+
+   Since 1 fps is sufficient for displaying speed, cadence, and heart rate, a pure CPU workflow is fast enough while greatly simplifying packaging and dependencies. It renders at 14 fps for 4K output.
+
+2. Overlay the video with the original footage:
+   I use h264_videotoolbox to handle the load. Since YouTube always re-encodes videos anyway, using an algorithm with lower compression rate and faster speed is a good choice as long as your network speed is adequate. The overlay process runs at 60 fps for 4K video.
+
+# How to Use
+
+## Pull the Docker Image
+
+- docker pull lanpa/gopro-dashboard-overlay:latest
+
+## Prepare Files
+
+- The GoPro videos of the same "event": GX010546.mp4, GX020546.mp4, GX030546.mp4, ...
+- The GPX file containing the location (cadence and heart rate are optional)
+  - I recommend uploading the data to Strava first, as it seems Strava fixes the GPS drifting issue. Check my experiment video: https://www.youtube.com/watch?v=355ghwf2eTs
+
+## Run
+
+```
+# join the video:
+docker run -it --rm -v /Users/dexter/Downloads/sample:/work lanpa/gopro-dashboard-overlay gopro-join.py GX010546.MP4 joined_GX010546.MP4
+
+# render the overlay ARGB:
+docker run -it --rm -e TZ=UTC-8 -v /Users/dexter/Downloads/sample:/work lanpa/gopro-dashboard-overlay gopro-dashboard.py joined_GX010546.MP4 overlay_joined_GX010546.mov --gpx bt_test_1.gpx --overlay-size 3840x2160 --layout-xml /profile/default-3840x2160.xml --generate overlay --config-dir /profile/.gopro-graphics/ --profile quicktime --use-gpx-only --gpx-merge OVERWRITE --video-time-end file-modified
+
+# overlay with the original GoPro video:
+ffmpeg -y -i /Users/dexter/Downloads/sample/joined_GX010546.MP4 -i /Users/dexter/Downloads/sample/overlay_joined_GX010546.mov -filter_complex [0:v]scale=3840:2160[scaled];[scaled][1:v]overlay=0:0 -c:a copy -c:v h264_videotoolbox -b:v 60000k -bf 2 /Users/dexter/Downloads/sample/blend_overlay_joined_GX010546.mov
+
+Change h264_videotoolbox to other options if you have different hardware (Intel iGPU, nvenc, ...).
+
+```
+
 # Create video overlays from GoPro Videos or any GPX/FIT file
 
 <a href="https://github.com/time4tea/gopro-dashboard-overlay/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/time4tea/gopro-dashboard-overlay?style=for-the-badge"></a>
