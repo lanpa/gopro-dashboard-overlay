@@ -17,7 +17,7 @@
 
     <composite x="32" y="1700" name="speed">
         <component type="metric_unit" metric="speed" units="kph" size="32">{:~c}</component>
-        <component type="metric" x="0" y="0" metric="speed" units="kph" dp="0" size="160" />
+        <component type="metric" x="0" y="0" metric="speed" units="kph" dp="0" size="300" />
     </composite>
 
 
@@ -34,16 +34,16 @@
 
     <component type="chart" name="gradient_chart" x="500" y="1980" height="150" textsize="32" samples="1600"/>
   
-    <composite x="3700" y="1800" name="cadence">
-        <component type="text" x="-80" y="0" size="32" align="right">RPM</component>
-        <component type="icon" x="-64" y="0" file="gauge.png" size="128"/>
-        <component type="metric" x="-80" y="18" metric="cadence" dp="0" size="64" align="right"/>
-    </composite>
-
-    <composite x="3700" y="1980" name="heartbeat">
+    <composite x="3700" y="1800" name="heartbeat">
         <component type="text" x="-80" y="0" size="32" align="right">BPM</component>
         <component type="icon" x="-64" y="0" file="heartbeat.png" size="128"/>
         <component type="metric" x="-80" y="18" metric="hr" dp="0" size="64" align="right"/>
+    </composite>
+
+    <composite x="3700" y="1980" name="cadence">
+        <component type="text" x="-80" y="0" size="32" align="right">RPM</component>
+        <component type="icon" x="-64" y="0" file="gauge.png" size="128"/>
+        <component type="metric" x="-80" y="18" metric="cadence" dp="0" size="64" align="right"/>
     </composite>
 
     <composite x="3300" y="1980" name="odometer">
