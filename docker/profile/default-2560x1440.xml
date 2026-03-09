@@ -31,7 +31,7 @@
         <component type="metric" x="100" y="21" metric="gradient" dp="0" size="43" />
     </composite>
 
-    <component type="chart" name="gradient_chart" x="333" y="1320" height="100" textsize="21" samples="1067"/>
+    <component type="chart" name="gradient_chart" x="533" y="1320" height="100" textsize="21" samples="1500"/>
 
     <composite x="2467" y="1200" name="heartbeat">
         <component type="text" x="-53" y="0" size="21" align="right">BPM</component>
